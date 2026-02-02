@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ChannelPilot AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- GSAP (future animations ready) -->
+  <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- HEADER -->
+    <header class="app-header">
+      <h1>ChannelPilot AI</h1>
+      <p>AI-Powered Prompt to Workflow Engine</p>
+    </header>
+
+    <!-- INPUT -->
+    <section class="input-section">
+      <textarea
+        id="promptInput"
+        placeholder="Describe what you want to automate or build a workflow for…"
+        rows="3"
+      ></textarea>
+
+      <button id="analyzeBtn">Generate Workflow</button>
+    </section>
+
+    <!-- OUTPUT -->
+    <section class="output-section">
+      <div id="output"></div>
+    </section>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
