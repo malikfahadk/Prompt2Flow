@@ -59,7 +59,7 @@ async function generateWorkflow() {
   outEl.innerHTML = "<p class='muted'>Thinking...</p>";
 
   try {
-    const res = await fetch("/api/workflow", {
+    const res = await fetch("/api/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ prompt }),
@@ -77,6 +77,5 @@ async function generateWorkflow() {
 }
 
 btnEl.addEventListener("click", generateWorkflow);
-
 
 
