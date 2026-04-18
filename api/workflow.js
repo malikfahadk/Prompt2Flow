@@ -1,9 +1,17 @@
-export default async function handler(req, res) {
-  // Only POST allowed
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
+const express = require("express");
+const path = require("path");
 
+const app = express();
+const PORT = process.env.PORT || 8080;
+
+app.use(express.json());
+app.use(express.static("public"));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/index.html"));
+});
+
+app.post("/api/generate", async (req, res) => {
   try {
     const { prompt } = req.body || {};
 
@@ -20,7 +28,6 @@ export default async function handler(req, res) {
       });
     }
 
-    // ---- Prompt2Flow system prompt ----
     const systemPrompt = `
 You are Prompt2Flow, an AI workflow generator.
 
@@ -45,7 +52,6 @@ Rules:
 
     const fullPrompt = `${systemPrompt}\n\nUser prompt:\n${prompt}`;
 
-    // ---- Gemini 2.5 Flash REST call ----
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
       {
@@ -73,10 +79,8 @@ Rules:
       });
     }
 
-    const text =
-      data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
 
-    // ---- JSON auto-extract (important) ----
     const firstBrace = text.indexOf("{");
     const lastBrace = text.lastIndexOf("}");
 
@@ -100,4 +104,8 @@ Rules:
       error: err.message || "Internal server error",
     });
   }
-}
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on ${PORT}`);
+});
